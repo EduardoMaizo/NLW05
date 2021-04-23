@@ -3,7 +3,7 @@ import { Entity, Column, CreateDateColumn, PrimaryColumn, ManyToOne, JoinColumn,
 import { v4 as uuid } from "uuid";
 import { User } from "./User";
 
-@Entity()
+@Entity("connection")
 export class Connection {
     @PrimaryColumn()
     id: string;

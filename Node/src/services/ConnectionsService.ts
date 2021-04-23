@@ -10,11 +10,11 @@ interface IConnectionCreate {
 }
 
 export class ConnectionsService {
-    private connectionsRepository: Repository<Connection>
+    private connectionsRepository: Repository<Connection>;
 
     constructor(){
-        this.connectionsRepository = getCustomRepository(ConnectionsRepository)
-    }
+        this.connectionsRepository = getCustomRepository(ConnectionsRepository);
+    };
 
     async create({socket_id, user_id, admin_id, id}: IConnectionCreate) {
         const connection = this.connectionsRepository.create({
@@ -26,11 +26,26 @@ export class ConnectionsService {
 
         await this.connectionsRepository.save(connection);
 
-        return connection
-    }
+        return connection;
+    };
 
     async findByUserId(user_id: string){
         const connection = await this.connectionsRepository.findOne({user_id});
+
+        return connection;
+    };
+
+    async findAllWhithoutAdmin(){
+        const connections = await this.connectionsRepository.find({
+            where: {admin_id: null},
+            relations: ["user"]
+        });
+
+        return connections;
+    };
+
+    async findBySocketId(socket_id: string){
+        const connection = await this.connectionsRepository.findOne({socket_id});
 
         return connection;
     }
